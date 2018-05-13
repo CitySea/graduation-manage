@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>人物列表</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="../../lib/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="../../css/hp-common.css"/>
+</head>
+
+<body>
+  <table id="test" lay-filter="test"></table>
+  
+  <!--编辑弹层-->
+  <div id="editPopup" style="display: none;">
+    <form class="layui-form" id="staffForm">
+      <div class="layui-tab layui-tab-brief" lay-filter="editTabPopup">
+        <ul class="layui-tab-title">
+          <li class="layui-this">基本信息</li>
+          <li>详细介绍</li>
+        </ul>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">名字</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="name" lay-verify="name" placeholder="请输入名字" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-inline">
+                  <label class="layui-form-label">中文名</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="cnname" placeholder="请输入中文名" class="layui-input">
+                  </div>
+                </div>
+              </div>
+
+              <div class="layui-form-item">
+                <div class="layui-inline">
+                  <label class="layui-form-label">日期选择</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="date" id="date" class="layui-input">
+                  </div>
+                </div>
+              </div>
+
+              <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                  <input type="radio" name="sex" value="男" title="男">
+                  <input type="radio" name="sex" value="女" title="女">
+                </div>
+              </div>
+
+              <div style="display: none;">
+                <input type="text" name="show_pic" value="" id="showPic">
+                <input type="text" name="small_show_pic" value="" id="smallshowPic">
+                <input type="text" name="id">
+              </div>
+
+              <div class="layui-upload">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-upload-list" style="margin: 0;display: inline-block;vertical-align: bottom;">
+                  <img id="showImage" width="160" height="260">
+                  <p id="demoText"></p>
+                </div>
+                <button type="button" class="layui-btn" id="selectImage">选择图片</button>
+              </div>
+          </div>
+          <div class="layui-tab-item">
+            <div class="layui-form-item layui-form-text">
+              <div class="layui-input-block" style="margin-left: 0;">
+                <textarea name="detail" id="detail" class="layui-hide"></textarea>
+                <!-- <textarea placeholder="请输入内容" class="layui-textarea" name="detail" style="height: 400px;"></textarea> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div style="display: none;">
+    <canvas id="canvas" height="138" width="220"></canvas>
+  </div>
+</body>
+<script src="../../lib/layui/layui.js"></script> 
+
+<!-- 表格工具条 -->
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="editTab">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script> 
+
+<script>
+  layui.config({
+    base: '../../module/' // 扩展模块目录
+  }).extend({ // 模块别名
+    hpLayedit: 'component/hpLayedit',
+  });
+  layui.use(['table', 'layer', 'element', 'form', 'hpLayedit', 'laydate', 'upload'], function(){
+    var $ = layui.jquery;
+    var form    = layui.form;
+    var table   = layui.table;
+    var element = layui.element;
+    var layer   = layui.layer;
+    var upload  = layui.upload; 
+    var laydate = layui.laydate;
+    var layedit = layui.hpLayedit;
+
+    table.render({
+      elem: '#test'
+      ,url:'http://127.0.0.1:3000/api/manage/staff/showCv'
+      ,page: true
+      ,cols: [[
+        {field:'id', width:80, title: 'ID'}
+        ,{field:'name', width:120, title: '姓名'}
+        ,{field:'cnname', width:120, title: '中文名'}
+        ,{field:'sex', width:80, title: '性别'}
+        ,{field:'date', width:120, title: '日期'}
+        ,{field:'stars', width:80, title: '收藏数'}
+        ,{field:'detail', title: '介绍', minWidth: 150}
+        ,{title: '操作', fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}
+      ]]
+    });
+
+    //监听工具条
+    table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+      var data = obj.data;
+      var layEvent = obj.event; 
+      var tr = obj.tr; 
+      var text;
+      if(layEvent === 'editTab') { //编辑
+        //显示当前人物信息
+        $.ajax({
+          url: 'http://127.0.0.1:3000/api/manage/staff/cvInfo',
+          data: {id: data.id},
+          method: 'POST',
+          success: function(res){
+            let dateTemp = res.data[0].date;
+
+            $('input[name = name]').val(res.data[0].name);
+            $('input[name = cnname]').val(res.data[0].cnname);
+            $('input[name = show_pic]').val(res.data[0].show_pic);
+            $('input:radio[value = '+res.data[0].sex+']').attr('checked', 'true');
+            $('textarea[name = detail]').val(res.data[0].detail);
+            if( res.data[0].show_pic!="" ){
+              $('#showImage').attr('src','E:/graduation/server/' + res.data[0].show_pic);
+            }else{
+              $('#showImage').attr('src', "");
+            }
+            $('input[name = id]').val(data.id);
+            //弹出层加载
+            layer.open({
+              type: 1,
+              title: '编辑人物信息',
+              shadeClose: true,
+              shade: false,
+              maxmin: true, //开启最大化最小化按钮
+              area: ['893px', '600px'],
+              content: $('#editPopup'),
+              success: function(data){
+                form.render();
+                laydate.render({
+                  elem: '#date',
+                  value: dateTemp
+                });
+                //富文本编辑器
+                text = layedit.build('detail', {
+                  tool: [
+                    'strong',
+                    'italic',
+                    'underline',
+                    'del'
+                  ] 
+                });
+              },
+              btn: ['确定', '关闭'],
+              yes: function(index, layero) {//编辑接口
+                var data = $('#staffForm').serializeArray();
+                for(var i = 0; i < data.length; i++){
+                  if(data[i].name == 'detail'){
+                    data[i].value = layedit.getContent(text);
+                    break;
+                  }
+                }
+                $.ajax({
+                  url: 'http://127.0.0.1:3000/api/manage/staff/updateCv',
+                  data: data,
+                  method: 'POST',
+                  success: function(res) {
+                    if(res.code == '11001'){
+                      layer.tips(res.msg, btn, {tips: 1});
+                    }else{
+                      layer.msg(res.msg, {icon: 1});
+                      setTimeout(function(){
+                        document.location.reload(true);
+                      }, 1000);
+                    }
+                  },
+                  error: function(error) {
+                    console.log(error);
+                  }
+                });
+              },
+              btn2: function(index, layero) {//关闭按钮
+                layer.close(index);
+              }
+            });
+          }
+        })
+
+      } else if(layEvent === 'del') { //删除
+        layer.msg('确定删除该声优信息', {
+          time: 60000, //关闭时间 毫秒
+          btn: ['确定', '取消']
+        },function(){
+          $.ajax({
+            url: 'http://127.0.0.1:3000/api/manage/staff/delCv',
+            data: {id: data.id},
+            method: 'POST',
+            success: function(res){
+              if(res.code == '11000'){
+                layer.msg(res.msg, {icon: 1});
+                setTimeout(function(){
+                  table.reload('test', {
+                    url: 'http://127.0.0.1:3000/api/manage/staff/showCv'
+                    ,page: {
+                      curr: 1
+                    }
+                  });
+                }, 2000);
+              }else{
+                console.log(res);
+              }
+            },
+            error: function(err){
+              console.log(err);
+            }
+          });
+        });
+      }
+    });
+
+    //监听tab
+    element.on('tab(editTabPopup)', function(data) {
+    });
+
+    //图片上传
+    var uploadInst = upload.render({
+      elem: '#selectImage'
+      ,field: 'logo'
+      ,url: 'http://127.0.0.1:3000/api/upload/uploadImage'
+      ,before: function(obj){
+        //预读本地文件示例，不支持ie8
+        obj.preview(function(index, file, result){
+          $('#showImage').attr('src', result);
+
+          var reader = new FileReader();
+          var img    = new Image();
+          var canvas = document.getElementById('canvas');
+          var ctx    = canvas.getContext('2d');
+          reader.readAsDataURL(file);
+          img.onload = function () {
+            ctx.drawImage(img, 0, 0, 220,138,0,0,220,138);
+            canvas.toBlob(function(blob) {
+              //图片上传
+              var formdata = new FormData();
+              var fileType = blob.type.split("/")[1];
+              var xhr = new XMLHttpRequest();
+
+              formdata.append("logo", blob, fileType);
+
+              xhr.open('POST', 'http://127.0.0.1:3000/api/upload/uploadSmallImage', true);
+              xhr.send(formdata);
+              xhr.onload = function(e) { 
+                if(this.status == 200 || this.status == 304){
+                  var tempd = JSON.parse(this.responseText);
+                  $('#smallshowPic').val(tempd.path);
+                }
+              };
+            },file.type || 'image/png');
+          }
+          reader.onload = function(e) {
+            img.src = result;
+          }
+        });
+      }
+      ,done: function(res){
+        if(res.status == '10000'){
+          $('#showPic').val(res.path);
+        }
+      }
+      ,error: function(){
+        console.log("重试");
+      }
+    });
+
+  });
+
+</script>
+</body>
+</html>

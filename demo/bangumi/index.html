@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>番剧列表</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="../../lib/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="../../css/hp-common.css"/>
+</head>
+
+<body>
+  <table id="bangumiData" lay-filter="bangumiData"></table>
+</body>
+<script src="../../lib/layui/layui.js"></script> 
+
+<!-- 表格工具条 -->
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="editTab">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delTab">删除</a>
+</script> 
+
+<script>
+  layui.config({
+    base: '../../module/' // 扩展模块目录
+  }).extend({ // 模块别名
+    hpLayedit: 'component/hpLayedit',
+  });
+  layui.use(['table', 'layer', 'element', 'form', 'hpLayedit', 'laydate', 'upload'], function(){
+    var $ = layui.jquery;
+    var form    = layui.form;
+    var table   = layui.table;
+    var element = layui.element;
+    var layer   = layui.layer;
+    var upload  = layui.upload; 
+    var laydate = layui.laydate;
+    var layedit = layui.hpLayedit;
+
+    table.render({
+      elem: '#bangumiData'
+      ,url:'http://127.0.0.1:3000/api/manage/bgmiManage/showBangumi'
+      ,page: true
+      ,cols: [[
+        {field:'id', minWidth:80, title: 'ID'}
+        ,{field:'name', minWidth:120, title: '番剧名'}
+        ,{field:'cnname', minWidth:120, title: '中文名'}
+        ,{field:'progress_total', minWidth:120, title: '集数'}
+        ,{title: '操作', fixed: 'right', minWidth:150, align:'center', toolbar: '#barDemo'}
+      ]]
+    });
+
+    //监听工具条
+    table.on('tool(bangumiData)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+      var data = obj.data;
+      var layEvent = obj.event; 
+      var tr = obj.tr; 
+      var text;
+      if(layEvent === 'editTab') { //跳转到编辑页
+        var src = window.location.href;
+        var index = src.indexOf('index.html');
+
+        src = src.substring(0, index);
+        window.location.href = src + 'edit.html?id=' + data.id;
+      } else if(layEvent === 'delTab') { //删除
+       
+      }
+    });
+
+  });
+</script>
+</body>
+</html>

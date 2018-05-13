@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>动画情报管理系统</title>
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/hp-layui.css" />
+  </head>
+
+  <body class="layui-layout-body hp-white-theme">
+    <div class="layui-layout layui-layout-admin">
+      <div class="layui-header">
+        <div class="layui-logo">
+          情报站
+        </div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+          <li class="layui-nav-item">
+            <a href="">退出</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="layui-side hp-left-menu">
+        <div class="layui-side-scroll">
+          <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+          <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item layui-nav-itemed">
+              <a class="" href="javascript:;"><i class="layui-icon hp-icon-size">&#xe857;</i>动画情报</a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a class="hp-tab-add" hp-href="demo/bangumi/index.html" href="javascript:;">
+                    <i class="layui-icon hp-icon-size">&#xe658;</i> 情报列表
+                  </a>
+                </dd>
+                <dd>
+                  <a class="hp-tab-add" hp-href="demo/bangumi/add.html" href="javascript:;">
+                    <i class="layui-icon hp-icon-size">&#xe658;</i> 添加情报
+                  </a>
+                </dd>
+                <dd>
+                  <a class="hp-tab-add" hp-href="demo/bangumi/tag.html" href="javascript:;">
+                    <i class="layui-icon hp-icon-size">&#xe658;</i> 标签列表
+                  </a>
+                </dd>
+              </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+              <a class="" href="javascript:;"><i class="layui-icon hp-icon-size">&#xe857;</i>人物情报</a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a class="hp-tab-add" hp-href="demo/cv-staff/indexCv.html" href="javascript:;">
+                    <i class="layui-icon hp-icon-size">&#xe658;</i> 声优人物列表
+                  </a>
+                </dd>
+                <dd>
+                  <a class="hp-tab-add" hp-href="demo/cv-staff/indexStaff.html" href="javascript:;">
+                    <i class="layui-icon hp-icon-size">&#xe658;</i> staff人物列表
+                  </a>
+                </dd>
+                <dd>
+                  <a class="hp-tab-add" hp-href="demo/cv-staff/add.html" href="javascript:;">
+                    <i class="layui-icon hp-icon-size">&#xe658;</i> 添加人物
+                  </a>
+                </dd>
+              </dl>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="layui-tab hp-tab " style="" lay-filter="hp-tab-filter" lay-allowclose="true">
+          <ul class="layui-tab-title" style="">
+            <li class="layui-this" lay-id="0">首页</li>
+          </ul>
+          <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-footer">
+        <!-- 底部固定区域 -->
+          情报站1.0
+      </div>
+    </div>
+    <script src="lib/layui/layui.js"></script>
+    <script>
+        // 配置
+        layui.config({
+          base: './module/' // 扩展模块目录
+        }).extend({ // 模块别名
+          hpTab: 'component/hpTab',
+          hpRightMenu: 'component/hpRightMenu',
+          hpFormAll: 'component/hpFormAll',
+          hpLayedit: 'component/hpLayedit',
+          hpTheme: 'component/hpTheme'
+        });
+
+        //JavaScript代码区域
+        layui.use(['element', 'carousel', 'hpTheme', 'hpTab', 'hpLayedit', 'hpRightMenu'], function() {
+
+          var element = layui.element;
+          var carousel = layui.carousel; //轮播
+          var hpTab = layui.hpTab;
+          var hpRightMenu = layui.hpRightMenu;
+          var hpTheme = layui.hpTheme;
+          $ = layui.jquery;
+
+          // 初始化主题
+          hpTheme.init();
+
+          // 初始化 动态tab
+          hpTab.init();
+
+          // 右键tab菜单
+          hpRightMenu.init();
+
+          //tab联动左侧栏
+          $(document).on('click', ".layui-tab-title li", function() {
+            $('.layui-nav').find('.layui-this').removeClass('layui-this');
+            $('#hp-tab-id-' + $(this).attr('lay-id')).parent().addClass('layui-this');
+          });
+        });
+    </script>
+  </body>
+
+</html>
