@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>数据列表</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="../../lib/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="../../css/hp-common.css"/>
+</head>
+
+<body>
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+     <legend>书籍基本信息添加</legend>
+  </fieldset>
+  <form class="layui-form" id="banBaseForm">
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">书籍名</label>
+        <div class="layui-input-inline">
+          <input type="text" name="name" lay-verify="name" placeholder="请输入书籍名字" class="layui-input">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">中文书籍名</label>
+        <div class="layui-input-inline">
+          <input type="text" name="cnname" placeholder="请输入中文书籍名" class="layui-input">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">地区</label>
+      <div class="layui-input-inline">
+        <select name="addr">
+          <option value=""></option>
+          <option value="0">中国</option>
+          <option value="1">日本</option>
+          <option value="2">美国</option>
+          <option value="3">其他</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">作者</label>
+        <div class="layui-input-inline">
+          <input type="text" name="author" placeholder="请输入作者" class="layui-input">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">类型</label>
+      <div class="layui-input-inline">
+        <select name="type">
+          <option value=""></option>
+          <option value="0">漫画</option>
+          <option value="1">小说</option>
+          <option value="2">画集</option>
+          <option value="3">其他</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">开始连载时间</label>
+        <div class="layui-input-inline">
+          <input type="text" name="start_date" id="startDate" placeholder="请输入开始连载时间" class="layui-input">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">话数</label>
+        <div class="layui-input-inline">
+          <input type="text" name="chapter" placeholder="请输入话数" class="layui-input">
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">出版社</label>
+        <div class="layui-input-inline">
+          <input type="text" name="press" placeholder="请输入出版社" class="layui-input">
+        </div>
+      </div>
+    </div>
+    <a class="layui-btn" style="float: right; margin-right: 40px;" id="submitBanBase">添加书籍基本信息</a>
+  </form>
+</body>
+
+<script src="../../lib/layui/layui.js"></script> 
+  
+<script>
+  layui.config({
+    base: '../../module/' // 扩展模块目录
+  }).extend({ // 模块别名
+    hpLayedit: 'component/hpLayedit',
+  });
+  layui.use(['table', 'layer', 'element', 'form', 'hpLayedit', 'laydate', 'upload'], function(){
+    var $ = layui.jquery;
+    var form    = layui.form;
+    var table   = layui.table;
+    var element = layui.element;
+    var layer   = layui.layer;
+    var upload  = layui.upload; 
+    var laydate = layui.laydate;
+    var layedit = layui.hpLayedit;
+
+    laydate.render({
+      elem: '#startDate'
+    });
+      
+    $('#submitBanBase').click(function() {
+      var data = $('#banBaseForm').serializeArray();
+
+      $.ajax({
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/addBookBaseInfo',
+        data: data,
+        method: 'POST',
+        success: function(data){
+          console.log(data);
+          layer.msg(data.msg, {icon: 1});
+          setTimeout(function(){
+            location.reload();
+          }, 1000);
+        },
+        error: function(err){
+          console.log(err);
+        }
+      })
+    });
+  });
+</script>
+</body>
+</html>

@@ -111,28 +111,27 @@
 <body>
   <div class="layui-tab layui-tab-brief" lay-filter="addInfo">
     <ul class="layui-tab-title">
-      <li class="layui-this">番剧基本信息</li>
-      <li>番剧主要角色信息</li>
-      <li>番剧集数信息</li>
-      <li>番剧制作人员信息</li>
-      <li>番剧标签信息</li>
+      <li class="layui-this">书籍基本信息</li>
+      <li>书籍主要角色信息</li>
+      <li>书籍单行本信息</li>
+      <li>书籍标签信息</li>
     </ul>
     <div class="layui-tab-content">
       <div class="layui-tab-item layui-show">
         <form class="layui-form" id="banBaseForm">
           <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">番名</label>
+              <label class="layui-form-label">书籍名</label>
               <div class="layui-input-inline">
-                <input type="text" name="name" placeholder="请输入动画题目" class="layui-input">
+                <input type="text" name="name" placeholder="请输入书籍名" class="layui-input">
               </div>
             </div>
           </div>
           <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">中文番名</label>
+              <label class="layui-form-label">中文书籍名</label>
               <div class="layui-input-inline">
-                <input type="text" name="cnname" placeholder="请输入中文题目,多个用','隔开" class="layui-input">
+                <input type="text" name="cnname" placeholder="请输入中文书籍名" class="layui-input">
               </div>
             </div>
           </div>
@@ -150,25 +149,45 @@
           </div>
           <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">总集数</label>
+              <label class="layui-form-label">作者</label>
               <div class="layui-input-inline">
-                <input type="text" name="progress_total" placeholder="请输入总集数" class="layui-input">
+                <input type="text" name="author" placeholder="请输入作者" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-inline">
+              <select name="type" class="selectType" id="selectType">
+                <option value=""></option>
+                <option value="0">漫画</option>
+                <option value="1">小说</option>
+                <option value="2">画集</option>
+                <option value="3">其他</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">开始连载时间</label>
+              <div class="layui-input-inline">
+                <input type="text" name="start_date" id="startDate" placeholder="请输入开始连载时间" class="layui-input">
               </div>
             </div>
           </div>
           <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">首播时间</label>
+              <label class="layui-form-label">话数</label>
               <div class="layui-input-inline">
-                <input type="text" name="start_date" id="startDate" placeholder="请输入首播时间" class="layui-input">
+                <input type="text" name="chapter" placeholder="请输入话数" class="layui-input">
               </div>
             </div>
           </div>
           <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">放送星期</label>
+              <label class="layui-form-label">出版社</label>
               <div class="layui-input-inline">
-                <input type="text" name="send_date" placeholder="请输入首播时间" class="layui-input">
+                <input type="text" name="press" placeholder="请输入出版社" class="layui-input">
               </div>
             </div>
           </div>
@@ -176,7 +195,7 @@
             <div style="display: none;">
               <canvas id="banCanvas" height="100" width="150"></canvas>
             </div>
-            <label class="layui-form-label">角色头像</label>
+            <label class="layui-form-label">书籍封面图</label>
             <div class="layui-upload-list" style="margin: 0;display: inline-block;vertical-align: bottom;">
               <img id="showBanImage" width="160" height="260">
             </div>
@@ -187,7 +206,7 @@
             <input type="text" name="show_pic" value="" id="showBanPic">
             <input type="text" name="small_show_pic" value="" id="smallBanPic">
           </div>
-          <a class="layui-btn" style="float: right; margin-right: 40px;" id="submitBanBase">修改番剧基本信息</a>
+          <a class="layui-btn" style="float: right; margin-right: 40px;" id="submitBanBase">修改书籍基本信息</a>
         </form>
       </div>
 
@@ -200,151 +219,8 @@
       </div>
 
       <div class="layui-tab-item">
-        <a class="layui-btn" id="addEpisodeBtn">添加集数</a>
+        <a class="layui-btn" id="addEpisodeBtn">添加单行本</a>
         <table id="episodeData" lay-filter="episodeData"></table>
-      </div>
-
-      <div class="layui-tab-item">
-        <form class="layui-form" id="staffForm">
-          <div class="layui-form-item">
-            <div class="layui-inline">
-              <label class="layui-form-label">导演</label>
-              <div class="layui-input-inline">
-                <input type="text" name="director" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">脚本</label>
-              <div class="layui-input-inline">
-                <input type="text" name="script" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">分镜</label>
-              <div class="layui-input-inline">
-                <input type="text" name="split_mirror" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">演出</label>
-              <div class="layui-input-inline">
-                <input type="text" name="show" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            
-          </div>
-          <div class="layui-form-item">
-            <div class="layui-inline">
-              <label class="layui-form-label">音乐</label>
-              <div class="layui-input-inline">
-                <input type="text" name="musix" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">人物设定</label>
-              <div class="layui-input-inline">
-                <input type="text" name="character_setting" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">系列构成</label>
-              <div class="layui-input-inline">
-                <input type="text" name="series_composition" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">美术监督</label>
-              <div class="layui-input-inline">
-                <input type="text" name="art_supervision" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-          </div>
-          <div class="layui-form-item">
-             <div class="layui-inline">
-              <label class="layui-form-label">色彩设计</label>
-              <div class="layui-input-inline">
-                <input type="text" name="color_design" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">总作画监督</label>
-              <div class="layui-input-inline">
-                <input type="text" name="general_painting" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">作画监督</label>
-              <div class="layui-input-inline">
-                <input type="text" name="painting_supervision" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">摄影监督</label>
-              <div class="layui-input-inline">
-                <input type="text" name="photo_supervision" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <div class="layui-inline">
-              <label class="layui-form-label">原画</label>
-              <div class="layui-input-inline">
-                <input type="text" name="orig_picture" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">第二原画</label>
-              <div class="layui-input-inline">
-                <input type="text" name="sec_orig_picture" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">背景美术</label>
-              <div class="layui-input-inline">
-                <input type="text" name="back_art" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">剪辑</label>
-              <div class="layui-input-inline">
-                <input type="text" name="clip" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <div class="layui-inline">
-              <label class="layui-form-label">主题歌编曲</label>
-              <div class="layui-input-inline">
-                <input type="text" name="music_arranger" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">企画</label>
-              <div class="layui-input-inline">
-                <input type="text" name="planning" placeholder="" class="layui-input" readonly="true">
-              </div>
-              <a class="layui-btn addStaffInfo">添加</a>
-            </div>
-          </div>
-          <a class="layui-btn" id='addStaffTotal' style="float: right; margin-right: 40px;">添加制作人人员信息</a>
-        </form>
       </div>
 
       <div class="layui-tab-item">
@@ -356,6 +232,67 @@
       </div>
     </div>
   </div>
+  <!--添加集数弹层 start-->
+  <div id="addEpisodePopup" style="display: none">
+    <form class="layui-form" id="addEpisodeForm" style="margin-top: 20px;">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">单行本号</label>
+          <div class="layui-input-inline">
+            <input type="text" name="off_no" placeholder="请输入集号" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">单行本名称</label>
+          <div class="layui-input-inline">
+            <input type="text" name="name" placeholder="请输入集号" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">单行本中文名称</label>
+          <div class="layui-input-inline">
+            <input type="text" name="cnname" placeholder="请输入标题" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">开始连载时间</label>
+          <div class="layui-input-inline">
+            <input type="text" name="broadcast_time" id="addBroadcastTime" class="layui-input">
+          </div>
+        </div>
+      </div>
+      <div class="layui-upload">
+        <div style="display: none;">
+          <canvas id="OffCanvas" height="100" width="150"></canvas>
+        </div>
+        <label class="layui-form-label">单行本封面图</label>
+        <div class="layui-upload-list" style="margin: 0;display: inline-block;vertical-align: bottom;">
+           <img id="showOffImage" width="160" height="260">
+        </div>
+        <button type="button" class="layui-btn" id="selOffImage">选择图片</button>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">内容简介</label>
+        <div class="layui-input-block" style="margin: 20px 0 0 130px;">
+          <textarea name="detail" id="addEpisodeDetail" class="layui-hide"> </textarea>
+        </div>
+      </div>
+      <div style="display: none">
+        <input type="text" name="bookId">
+        <input type="text" name="show_pic" value="" id="showOffPic">
+        <input type="text" name="small_show_pic" value="" id="smallOffPic">
+      </div>
+    </form>
+    <a id="addEpisode" class="layui-btn" style="margin-left: 110px;margin-top: 20px;">添加</a>
+  </div>
+  <!--添加集数弹层 end-->
+
   <!--添加角色弹层 start-->
   <div id="roleEditPopup" style="display: none;">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -383,11 +320,6 @@
           <form class="layui-form" id="showcvForm">
             <div class="layui-form-item">
               <div class="layui-inline">
-                <label class="layui-form-label" style="width: 20px;">cv</label>
-                <div class="layui-input-inline">
-                  <input type="text" name="cvname" class="layui-input">
-                </div>
-                <a class="layui-btn" id="selcvName">搜索</a>
                 <a class="layui-btn" id="addHaveRole">添加关联角色</a>
               </div>
             </div>
@@ -418,15 +350,6 @@
                 <div class="layui-input-block">
                   <input type="text" name="cnname" placeholder="请输入角色别名，多个用','隔开" class="layui-input">
                 </div>
-              </div>
-            </div>
-            <div class="layui-form-item">
-              <div class="layui-inline">
-                <label class="layui-form-label">cv</label>
-                <div class="layui-input-inline">
-                  <input type="text" name="cvname" placeholder="请输入cv" class="layui-input">
-                </div>
-                <a class="layui-btn" id="selCv">搜索</a>
               </div>
             </div>
             <div class="layui-form-item">
@@ -495,15 +418,6 @@
         </div>
       </div>
       <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">cv</label>
-          <div class="layui-input-inline">
-            <input type="text" name="cvname" placeholder="请输入cv" class="layui-input">
-          </div>
-          <a class="layui-btn" id="easelCv">搜索</a>
-        </div>
-      </div>
-      <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
         <div class="layui-input-block">
           <input type="radio" name="sex" value="男" title="男">
@@ -548,155 +462,65 @@
   </div>
   <!--角色编辑弹层 end-->
 
-  <!--cv弹层 start-->
-  <div id="cvPopup" style="display: none;">
-    <p style="color: #999;font-size: 12px;margin: 10px 0 0 17px;">注：若没有所要cv信息，请先添加该cv信息</p>
-  </div>
-  <!--cv弹层 end-->
-
-  <!--添加集数弹层 start-->
-  <div id="addEpisodePopup" style="display: none">
-    <form class="layui-form" id="addEpisodeForm" style="margin-top: 20px;">
-      <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">集号</label>
-          <div class="layui-input-inline">
-            <input type="text" name="epi_no" placeholder="请输入集号" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">标题</label>
-          <div class="layui-input-inline">
-            <input type="text" name="name" placeholder="请输入标题" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">中文标题</label>
-          <div class="layui-input-inline">
-            <input type="text" name="cnname" placeholder="请输入中文标题" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">时长</label>
-          <div class="layui-input-inline">
-            <input type="text" name="duration" placeholder="请输入时长" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">首播时间</label>
-          <div class="layui-input-inline">
-            <input type="text" name="broadcast_time" id="addBroadcastTime" class="layui-input">
-          </div>
-        </div>
-      </div>
-     
-      <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">内容简介</label>
-        <div class="layui-input-block">
-          <textarea name="detail" id="addEpisodeDetail" class="layui-hide"> </textarea>
-        </div>
-      </div>
-      <div style="display: none">
-        <input type="text" name="bangumiId">
-      </div>
-    </form>
-    <a id="addEpisode" class="layui-btn" style="margin-left: 110px;margin-top: 20px;">添加</a>
-  </div>
-  <!--添加集数弹层 end-->
-
   <!--编辑集数弹层 start-->
   <div id="editEpisodePopup" style="display: none">
     <form class="layui-form" id="editEpisodeForm" style="margin-top: 20px;">
       <div class="layui-form-item">
         <div class="layui-inline">
-          <label class="layui-form-label">集号</label>
+          <label class="layui-form-label">单行本序号</label>
           <div class="layui-input-inline">
-            <input type="text" name="epi_no" placeholder="请输入集号" class="layui-input" readonly="true">
+            <input type="text" name="off_no" class="layui-input" readonly="true">
           </div>
         </div>
       </div>
       <div class="layui-form-item">
         <div class="layui-inline">
-          <label class="layui-form-label">标题</label>
+          <label class="layui-form-label">单行本名称</label>
           <div class="layui-input-inline">
-            <input type="text" name="name" placeholder="请输入标题" class="layui-input">
+            <input type="text" name="name" placeholder="请输入单行本名称" class="layui-input">
           </div>
         </div>
       </div>
       <div class="layui-form-item">
         <div class="layui-inline">
-          <label class="layui-form-label">中文标题</label>
+          <label class="layui-form-label">单行本中文名称</label>
           <div class="layui-input-inline">
-            <input type="text" name="cnname" placeholder="请输入中文标题" class="layui-input">
+            <input type="text" name="cnname" placeholder="请输入单行本中文名称" class="layui-input">
           </div>
         </div>
       </div>
       <div class="layui-form-item">
         <div class="layui-inline">
-          <label class="layui-form-label">时长</label>
-          <div class="layui-input-inline">
-            <input type="text" name="duration" placeholder="请输入时长" class="layui-input">
-          </div>
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">首播时间</label>
+          <label class="layui-form-label">开始连载时间</label>
           <div class="layui-input-inline">
             <input type="text" name="broadcast_time" id="editBroadcastTime" class="layui-input">
           </div>
         </div>
       </div>
+      <div class="layui-upload">
+        <div style="display: none;">
+          <canvas id="offdCanvas" height="100" width="150"></canvas>
+        </div>
+        <label class="layui-form-label">书籍封面图</label>
+        <div class="layui-upload-list" style="margin: 0;display: inline-block;vertical-align: bottom;">
+           <img id="showOffdImage" width="160" height="260">
+        </div>
+        <button type="button" class="layui-btn" id="selOffdImage">选择图片</button>
+      </div>
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">内容简介</label>
-        <div class="layui-input-block">
+        <div class="layui-input-block" style="margin: 20px 0 0 130px;">
           <textarea name="detail" id="editEpisodeDetail" class="layui-hide"> </textarea>
         </div>
       </div>
       <div style="display: none">
         <input type="text" name="bangumiId">
+        <input type="text" name="show_pic" value="" id="showOffdPic">
+        <input type="text" name="small_show_pic" value="" id="smallOffdPic">
       </div>
     </form>
   </div>
   <!--编辑集数弹层 end-->
-
-  <!--添加番剧制作人员弹层 start-->
-  <div id="staffPopup" style="display: none;">
-    <fieldset class="layui-elem-field layui-field-title">
-      <legend>已添加制作人员</legend>
-    </fieldset>
-    <div class="layui-form-item">
-      <a class="layui-btn" style="margin-left: 30px;" id="delStaffBtn">删除</a>
-      <div id="addedStaff"></div>
-    </div>
-    <fieldset class="layui-elem-field layui-field-title">
-      <legend>添加新制作人员</legend>
-    </fieldset>
-    <div>
-      <div class="layui-form-item">
-        <div class="layui-inline">
-          <label class="layui-form-label">制作人员</label>
-          <div class="layui-input-inline">
-            <input type="text" name="staffName" class="layui-input">
-          </div>
-          <a class="layui-btn" id="selStaffBtn">搜索</a>
-          <a class="layui-btn" id="addStaffBtn">添加</a>
-        </div>
-      </div>
-      <div id="addNewStaff">
-        
-      </div>
-    </div>
-  </div>
-  <!--添加番剧制作人员弹层 end-->
 
   <!--确认删除集数提示框 start-->
   <div id="surePopup">
@@ -730,7 +554,7 @@
   <div id="tagPopup" style="display: none;">
     <div id="tagWrap"></div>
   </div>
-  <!--添加标签弹层 end-->
+  <!--添加标签制作人员弹层 end-->
 </body>
 
 <script src="../../lib/layui/layui.js"></script> 
@@ -842,11 +666,11 @@
     $('#sureBtn').click(function() {
       var params = {
         id: id,
-        epi_no: epiNo
+        off_no: epiNo
       }
 
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/delEpisode',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/delOffprint',
         data: params,
         method: 'POST',
         success: function(res) {
@@ -868,7 +692,7 @@
         id: id
       }
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/delBanTag',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/delBanTag',
         data: params,
         method: 'POST',
         success: function(data){
@@ -904,15 +728,14 @@
     //监听集数表
     table.render({
       elem: '#episodeData'
-      ,url:'http://127.0.0.1:3000/api/manage/bgmiManage/showEpisode'
+      ,url:'http://127.0.0.1:3000/api/manage/bookManage/showOffprint'
       ,where: {id: id}
       ,page: true
       ,cols: [[
-        {field:'epi_no', minWidth:80, title: '集数号'}
-        ,{field:'name', minWidth:120, title: '标题'}
-        ,{field:'cnname', minWidth:120, title: '中文标题'}
-        ,{field:'duration', minWidth:120, title: '时长'}
-        ,{field:'broadcast_time', minWidth:120, title: '播放时间'}
+        {field:'off_no', minWidth:80, title: '单行本序号'}
+        ,{field:'name', minWidth:120, title: '单行本名称'}
+        ,{field:'cnname', minWidth:120, title: '中文名称'}
+        ,{field:'broadcast_time', minWidth:120, title: '开始连载时间'}
         ,{title: '操作', fixed: 'right', minWidth:150, align:'center', toolbar: '#barDemo'}
       ]]
     });
@@ -924,18 +747,19 @@
       var tr = obj.tr; 
       var text;
       if(layEvent === 'editTab') { //跳转到编辑页
-        epiNo = data.epi_no;
+        epiNo = data.off_no;
         getEpisode();
       } else if(layEvent === 'delTab') { //删除
-        epiNo = data.epi_no;
+        epiNo = data.off_no;
         $('#surePopup').show();
       }
     });
 
     roleUploadImg('#selBanImage', 'showBanImage', 'showBanPic', 'smallBanPic', 'banCanvas');
+    roleUploadImg('#selOffImage', 'showOffImage', 'showOffPic', 'smallOffPic', 'OffCanvas');
+    roleUploadImg('#selOffdImage', 'showOffdImage', 'showOffdPic', 'smallOffdPic', 'OffdCanvas');
     roleUploadImg('#selectImage', 'showImage', 'showPic', 'smallshowPic', 'addRoleCanvas');
     roleUploadImg('#easelectImage', 'eashowImage', 'eashowPic', 'easmallshowPic', 'editRoleCanvas');
-
     //动态绑定声优选择事件
     $('#cvPopup').on('click', '.img-box', function(){
       var arr = $('#cvPopup').find('.active');
@@ -1018,6 +842,7 @@
               $('#eaDetail').val(data.data[0].detail);
               $('#editActorForm input:radio[value = '+posi+']').attr('checked', 'true');
               $('#editActorForm input[name=cvname]').val(cvn);
+
               if(data.data[0].show_pic != ''){
                 var imgUrl = 'e:/graduation';
                 $('#eashowImage').attr('src', imgUrl + data.data[0].show_pic.substring(2));
@@ -1163,7 +988,7 @@
     //获取基本信息
     function getBaseInfo(bangumiId) {
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/showBaseInfo',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/showBaseInfo',
         data: {id: bangumiId},
         method: 'POST',
         success: function(data){
@@ -1171,10 +996,8 @@
           var roleData = data.data.role;
           var imgUrl = 'e:/graduation';
 
-          //角色信息添加
-          $('#roleAdded').empty();
           for(var i in baseData[0]){
-            if( i != 'start_date'){
+            if( i != 'start_date' ){
               $('#banBaseForm input[name = '+i+']').val(baseData[0][i]);
             }else{
               laydate.render({
@@ -1183,37 +1006,38 @@
               });
             }
           }
+
+          //角色信息添加
           if( baseData[0].show_pic ){
             $('#showBanImage').attr('src', imgUrl + baseData[0].show_pic.substring(2));
           }
           //设置select默认选择值
           $('.selectAddr option[value = ' + baseData[0].addr + ']').attr('selected', true);
-          var ddArr = $('#banBaseForm').find('dd');
+          $('.selectType option[value = ' + baseData[0].type + ']').attr('selected', true);
+          var ddArr = $('#banBaseForm .selectAddr').next().find('dd');
           $.each(ddArr, function(i,val){
             if($(val)[0].attributes[0].value == baseData[0].addr){
               $(val).addClass('layui-this');
-              $('#banBaseForm .layui-select-title input').val($(val).text());
+              $($('#banBaseForm .selectAddr').next().find('.layui-select-title input')).val($(val).text());
             }
-          })
+          });
+          var ddArr = $('#banBaseForm .selectType').next().find('dd');
+          $.each(ddArr, function(i,val){
+            if($(val)[0].attributes[0].value == baseData[0].type){
+              $(val).addClass('layui-this');
+              $($('#banBaseForm .selectType').next().find('.layui-select-title input')).val($(val).text());
+            }
+          });
+
+          //角色信息添加
+          $('#roleAdded').empty();
           for(var i = 0; i < roleData.length; i++){
-            var str = '<div class="img-box" data-bangumiId=' + roleData[i].bangumiId + ' data-roleId=' + roleData[i].roleId +' data-cvId=' + roleData[i].cvId + ' data-posi=' + roleData[i].position + ' data-cvname=' + roleData[i].cvName + '>'+
+            var str = '<div class="img-box" data-bangumiId=' + roleData[i].bookId + ' data-roleId=' + roleData[i].roleId + ' data-posi=' + roleData[i].position + '>'+
                         '<img src="' + imgUrl + roleData[i].small_show_pic.substring(2) + '" width="110" height="110">'+
                         '<p>' + roleData[i].roleName + '</p>'+
-                        '<p>cv：' + roleData[i].cvName + '</p>'+
                         '<p>' + (roleData[i].position == 0 ? '主角' : '配角') +'</p>'+ 
                       '</div>';
             $('#roleAdded').append(str);
-          }
-          //staff人员信息添加
-          var staffTotal = JSON.parse(baseData[0].staff_total);
-          if(staffTotal != null){
-            for(var i = 0; i < staffTotal.length; i++){
-              var key = Object.keys(staffTotal[i])[0];
-              if(staffTotal[i].id != ''){
-                $('#staffForm input[name = ' + key + ']').val(staffTotal[i][key]);
-                $('#staffForm input[name = ' + key + ']').attr('data-id', staffTotal[i].id);
-              }
-            }
           }
         },
         error: function(err){
@@ -1226,7 +1050,7 @@
       var data = $('#banBaseForm').serializeArray();
 
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/editBangumiBaseInfo',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/editBookBaseInfo',
         data: data,
         method: 'POST',
         success: function(data) {
@@ -1256,7 +1080,7 @@
         }
       }
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/roleManage/addRole',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/addRole',
         data: data,
         method: 'POST',
         success: function(data) {
@@ -1286,7 +1110,7 @@
         }
       }
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/roleManage/editRole',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/editRole',
         data: data,
         method: 'POST',
         success: function(data){
@@ -1310,7 +1134,7 @@
         bangumiId: $('#editActorForm input[name = bangumiId]').val()
       }
       $.ajax({
-        url:'http://127.0.0.1:3000/api/manage/roleManage/delActor',
+        url:'http://127.0.0.1:3000/api/manage/bookManage/delActor',
         data: params,
         method: 'POST',
         success: function(data) {
@@ -1336,10 +1160,10 @@
           bangumiId: id,
           cvId: sureCvId,
           roleId: showRoleId,
-          position: data[1].value
+          position: data[0].value
         }
         $.ajax({
-          url: 'http://127.0.0.1:3000/api/manage/roleManage/addLinkRole',
+          url: 'http://127.0.0.1:3000/api/manage/bookManage/addLinkRole',
           data: params,
           method: 'POST',
           success: function(data) {
@@ -1436,8 +1260,9 @@
     }
     //添加集数信息
     function addEpisode() {
-      $('#addEpisodeForm input[name=bangumiId]').val(id);
+      $('#addEpisodeForm input[name=bookId]').val(id);
       var data = $('#addEpisodeForm').serializeArray();
+
       for(var i = 0; i < data.length; i++){
         if(data[i].name == 'detail'){
           data[i].value = layedit.getContent(addEpisodetext);
@@ -1445,7 +1270,7 @@
         }
       }
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/addEpisode',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/addOffprint',
         data: data,
         method: 'POST',
         success: function(data){
@@ -1468,10 +1293,10 @@
     function getEpisode() {
       var params = {
         id: id,
-        epi_no: epiNo
+        off_no: epiNo
       }
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/getEpisodeInfo',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/getOffprintInfo',
         data: params,
         method: 'POST',
         success: function(data){
@@ -1495,10 +1320,15 @@
                 });
               }
             }
+            var imgUrl = 'e:/graduation';
+            $('#showOffdImage').attr('src', '');
+            if( data.data[0].show_pic ){
+              $('#showOffdImage').attr('src', imgUrl + data.data[0].show_pic.substring(2));
+            }
             $('#editEpisodeDetail').val(data.data[0].detail);
             episodeIndex = layer.open({
               type: 1,
-              title: '编辑人物信息',
+              title: '编辑单文本信息',
               shadeClose: true,
               shade: false,
               maxmin: true, //开启最大化最小化按钮
@@ -1511,15 +1341,15 @@
               yes: function(index, layero) {//关闭弹窗
                 $('#editEpisodeForm input[name=bangumiId]').val(id);
                 var data = $('#editEpisodeForm').serializeArray();
+                
                 for(var i = 0; i < data.length; i++){
                   if(data[i].name == 'detail'){
                     data[i].value = layedit.getContent(editEpisodetext);
                     break;
                   }
                 }
-                
                 $.ajax({
-                  url: 'http://127.0.0.1:3000/api/manage/bgmiManage/editEpisode',
+                  url: 'http://127.0.0.1:3000/api/manage/bookManage/editOffprint',
                   data: data,
                   method: 'POST',
                   success: function(data){
@@ -1671,7 +1501,7 @@
         content: $('#tagPopup'),
         success: function(data){
         $.ajax({
-          url: 'http://127.0.0.1:3000/api/manage/bgmiManage/showNaddTag',
+          url: 'http://127.0.0.1:3000/api/manage/bookManage/showNaddTag',
           data: {id: bangumiId},
           method: 'POST',
           success: function(res) {
@@ -1692,7 +1522,7 @@
             arrId.push($(arrTag[i]).attr('data-id'));
           }
           $.ajax({
-            url: 'http://127.0.0.1:3000/api/manage/bgmiManage/addBanTag',
+            url: 'http://127.0.0.1:3000/api/manage/bookManage/addBanTag',
             data: {arrId: arrId, id: bangumiId},
             method: 'POST',
             success: function(data){
@@ -1718,7 +1548,7 @@
     function showAddTag(bangumiId){
       $('#addedTagPopup').empty();
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/showaddTag',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/showaddTag',
         data: {id: bangumiId},
         method: 'POST',
         success: function(data){
@@ -1738,7 +1568,7 @@
     //表格重载
     function tableEpisodeReload(){
       table.reload('episodeData', {
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/showEpisode'
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/showOffprint'
         ,page: {
           curr: 1
         }
@@ -1758,6 +1588,7 @@
             var reader = new FileReader();
             var img    = new Image();
             var canvas = document.getElementById(canvasId);
+            console.log(canvasId);
             var cwidth = canvas.width;
             var cheight = canvas.height;
             var ctx    = canvas.getContext('2d');

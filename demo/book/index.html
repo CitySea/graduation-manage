@@ -66,7 +66,7 @@
   <div id="surePopup">
     <div class="sure-box">
       <div class="content">
-        <p>确定删除该番剧</p>
+        <p>确定删除该书籍</p>
       </div>
       <div class="btn-group">
         <a class="sure-btn" id="sureBtn">确定</a>
@@ -103,13 +103,12 @@
 
     table.render({
       elem: '#bangumiData'
-      ,url:'http://127.0.0.1:3000/api/manage/bgmiManage/showBangumiMa'
+      ,url:'http://127.0.0.1:3000/api/manage/bookManage/showBookMa'
       ,page: true
       ,cols: [[
         {field:'id', minWidth:80, title: 'ID'}
-        ,{field:'name', minWidth:120, title: '番剧名'}
+        ,{field:'name', minWidth:120, title: '书籍名'}
         ,{field:'cnname', minWidth:120, title: '中文名'}
-        ,{field:'progress_total', minWidth:120, title: '集数'}
         ,{title: '操作', fixed: 'right', minWidth:150, align:'center', toolbar: '#barDemo'}
       ]]
     });
@@ -135,7 +134,7 @@
     //确定删除番剧
     $('#sureBtn').click(function() {
       $.ajax({
-        url: 'http://127.0.0.1:3000/api/manage/bgmiManage/delBangumi',
+        url: 'http://127.0.0.1:3000/api/manage/bookManage/delBook',
         data: {id: id},
         method: 'POST',
         success: function(data){
